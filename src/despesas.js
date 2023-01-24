@@ -76,9 +76,5 @@ export default () => ({
         this.tipo = 'Diversos',
         this.data = today.toLocaleDateString('pt-Br'),
         this.valor = null       
-    },
-    listaErros() {
-        let inputs = [...document.querySelectorAll("input[data-rules]")]    
-        return inputs.filter((input) => Iodine.assert(input.value, JSON.parse(input.dataset.rules)).valid !== true)         
     }
 })
