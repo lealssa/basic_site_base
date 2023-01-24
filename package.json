@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@alpinejs/mask": "^3.11.1",
+    "@alpinejs/persist": "^3.11.1",
+    "@caneara/iodine": "^8.3.0",
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "alpinejs": "^3.11.1",
+    "bulma": "^0.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  }
+}

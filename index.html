@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/solid.min.css">
+    <link rel="stylesheet" href="./dist/output.css">
+    <script defer src="dist/app.js"></script>
+  </head>
+  <body>
+  <section class="section" x-data="despesas">
+    <div class="block has-text-centered">
+      <h1 class="title">Cadastro de despesas</h1>
+      <h1 class="subtitle">Cadastre suas despesas</h1>
+    </div>      
+    <div class="tile is-ancestor">
+      <!-- Cadastro -->   
+      <div class="tile is-parent is-4">        
+        <div class="tile is-child box">
+            <div class="block">
+              <div class="field">
+                <label class="label">Nome da despesa</label>
+                <div class="control">
+                  <input class="input" type="text" x-model="nome" placeholder="ex. Conta de luz..." data-rules='["required"]'>
+                  <p class="help is-danger is-hidden"></p>
+                </div>                
+              </div>  
+              <div class="field">
+                <label class="label">Tipo</label>
+                <div class="control">
+                  <div class="select">
+                    <select x-model="tipo">
+                      <template x-for="tipo in $store.tiposDespesas">
+                        <option x-text="tipo"></option>
+                      </template>
+                    </select>
+                  </div>              
+                </div>
+              </div>    
+              <label class="label">Data da despesa</label>
+              <div class="field">
+                <div class="control">
+                  <input class="input" type="text" x-model="data" placeholder="ex. 10/01/2023" data-rules='["required","dateString"]' x-mask="99/99/9999">
+                  <p class="help is-danger is-hidden"></p>
+                </div>
+              </div>           
+              <label class="label">Valor</label>
+              <div class="field has-addons">                
+                <p class="control">
+                  <a class="button is-static">
+                    R$
+                  </a>
+                </p>                
+                <div class="control">
+                  <input class="input" type="text" x-model="valor" placeholder="ex. 10,00" data-rules='["required", "floatString"]' x-mask:dynamic="$money($input, ',')">
+                  <p class="help is-danger is-hidden"></p>
+                </div>
+              </div>                        
+              <button class="button" @click="cadastraDespesa()">
+                <span class="icon is-small">
+                  <i class="fa-solid fa-circle-plus"></i>
+                </span>            
+                <span>Cadastrar</span>
+              </button>
+            </div>
+        </div>
+      </div>   
+      <!-- Resultados -->
+      <div class="tile is-vertical">
+        <div class="tile is-parent">          
+          <div class="tile is-child block">
+            <div class="block">
+              <h1 class="subtitle">Total de despesas</h1>
+            </div>
+            <table class="table is-fullwidth is-striped">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Tipo</th>
+                  <th>Data</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <template x-for="despesa in despesas" x-key="despesa.id">
+                  <tr>
+                    <td x-text="despesa.nome"></td>
+                    <td x-text="despesa.tipo"></td>
+                    <td x-text="despesa.data"></td>
+                    <td x-text="despesa.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})"></td>
+                    <td>
+                      <button class="button is-small is-danger" @click="removeDespesa(despesa.id)">
+                        <span class="icon is-small">
+                          <i class="fa-solid fa-circle-minus"></i>
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+                </template>    
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th>Total</th>
+                  <th x-text="totalDespesas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})""></th>
+                </tr>
+              </tfoot>      
+            </table>
+          </div>
+        </div>
+        <div class="tile is-parent">
+          <div class="tile is-child">
+            <div class="block">
+              <h1 class="subtitle">Total por tipo</h1>
+            </div>
+            <table class="table is-striped">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template x-for="totalTipo in totalPorTipo" x-key="total.index">
+                  <tr>
+                    <td x-text="totalTipo.tipo"></td>
+                    <td x-text="totalTipo.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})"></td>
+                  </tr>
+                </template>                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
