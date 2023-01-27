@@ -3,6 +3,8 @@ import mask from '@alpinejs/mask'
 import persist from '@alpinejs/persist'
 import Iodine from '@caneara/iodine';
 
+import './site.sass'
+
 const instance = new Iodine();
 
 instance.setErrorMessages({
